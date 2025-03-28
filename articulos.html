@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroEdu - Tienda de Astronomía</title>
+    <style>
+        :root {
+            --primary-color: #0a1128;
+            --secondary-color: #1c3fa8;
+            --accent-color: #4d7cff;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --background-light: #f5f7ff;
+            --background-dark: #0a1128;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--background-light);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--primary-color);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        .dropdown-content li {
+            margin: 0;
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            margin: 1rem 0;
+            max-width: 600px;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-rating {
+            color: var(--warning-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Categories */
+        .categories {
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            padding: 2rem 0;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .category-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .category-card:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .category-card h3 {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Filters */
+        .filters {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-option {
+            background-color: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-option:hover, .filter-option.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+            }
+
+            nav ul li {
+                margin: 0 1rem 0.5rem 0;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>AstroEdu</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#cursos">Cursos</a></li>
+                    <li class="dropdown">
+                        <a href="#recursos">Recursos</a>
+                        <ul class="dropdown-content">
+                            <li><a href="libros.html">Libros</a></li>
+                            <li><a href="videos.html">Videos</a></li>
+                            <li><a href="articulos.html">Artículos</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+                    <li><a href="contact.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="categories">
+            <div class="container">
+                <h2>Categorías de Productos</h2>
+                <div class="category-grid">
+                    <div class="category-card">
+                        <div>🔭</div>
+                        <h3>Telescopios</h3>
+                    </div>
+                    <div class="category-card">
+                        <div>👁️</div>
+                        <h3>Binoculares</h3>
+                    </div>
+                    <div class="category-card">
+                        <div>📚</div>
+                        <h3>Libros</h3>
+                    </div>
+                    <div class="category-card">
+                        <div>🔍</div>
+                        <h3>Accesorios</h3>
+                    </div>
+                    <div class="category-card">
+                        <div>🌌</div>
+                        <h3>Mapas Estelares</h3>
+                    </div>
+                    <div class="category-card">
+                        <div>🛰️</div>
+                        <h3>Modelos</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar productos de astronomía...">
+                <button>Buscar</button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <h3>Precio</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">Menos de €50</div>
+                        <div class="filter-option">€50 - €200</div>
+                        <div class="filter-option">€200 - €500</div>
+                        <div class="filter-option">Más de €500</div>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h3>Valoración</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">4★ y más</div>
+                        <div class="filter-option">3★ y más</div>
+                        <div class="filter-option">2★ y más</div>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h3>Marca</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">Celestron</div>
+                        <div class="filter-option">Orion</div>
+                        <div class="filter-option">Sky-Watcher</div>
+                        <div class="filter-option">Meade</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Productos Destacados</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="telescopio.jpeg" alt="Telescopio Celestron NexStar 8SE">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Telescopio Celestron NexStar 8SE</h3>
+                        <div class="product-price">€1,299.99</div>
+                        <div class="product-rating">★★★★★ (128)</div>
+                        <p class="product-description">Telescopio Schmidt-Cassegrain de 8 pulgadas con tecnología de alineación automática SkyAlign.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="binoculares.jpeg" alt="Binoculares Celestron SkyMaster">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Binoculares Celestron SkyMaster</h3>
+                        <div class="product-price">€89.99</div>
+                        <div class="product-rating">★★★★☆ (95)</div>
+                        <p class="product-description">Binoculares 15x70 ideales para observación astronómica y terrestre.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="mapa.jpeg" alt="Mapa Estelar Personalizado">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Mapa Estelar Personalizado</h3>
+                        <div class="product-price">€49.99</div>
+                        <div class="product-rating">★★★★★ (213)</div>
+                        <p class="product-description">Mapa del cielo nocturno personalizado para una fecha y ubicación específicas.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="Carls.jpeg" alt="Libro: Cosmos de Carl Sagan">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Libro: Cosmos de Carl Sagan</h3>
+                        <div class="product-price">€24.99</div>
+                        <div class="product-rating">★★★★★ (342)</div>
+                        <p class="product-description">Edición especial del clásico de Carl Sagan que explora el universo y nuestro lugar en él.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="filtros.jpeg" alt="Filtro Lunar para Telescopio">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Filtro Lunar para Telescopio</h3>
+                        <div class="product-price">€29.99</div>
+                        <div class="product-rating">★★★★☆ (78)</div>
+                        <p class="product-description">Reduce el brillo de la Luna para una observación más cómoda y detallada.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="modelo.jpeg" alt="Modelo 3D del Sistema Solar">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Modelo 3D del Sistema Solar</h3>
+                        <div class="product-price">€79.99</div>
+                        <div class="product-rating">★★★★☆ (56)</div>
+                        <p class="product-description">Modelo a escala del sistema solar con planetas móviles y luz solar.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Ofertas Especiales</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="kit.jpeg" alt="Kit de Iniciación Astronómica">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Kit de Iniciación Astronómica</h3>
+                        <div class="product-price">€149.99 <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">€199.99</span></div>
+                        <div class="product-rating">★★★★☆ (42)</div>
+                        <p class="product-description">Kit completo para principiantes que incluye telescopio, mapas estelares y guía de observación.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="cam.jpeg" alt="Cámara Astronómica ZWO ASI224MC">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Cámara Astronómica ZWO ASI224MC</h3>
+                        <div class="product-price">€299.99 <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">€349.99</span></div>
+                        <div class="product-rating">★★★★★ (37)</div>
+                        <p class="product-description">Cámara a color de alta sensibilidad para astrofotografía planetaria y lunar.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="libros.jpeg" alt="Colección de Libros de Astronomía">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Colección de Libros de Astronomía</h3>
+                        <div class="product-price">€89.99 <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">€129.99</span></div>
+                        <div class="product-rating">★★★★☆ (28)</div>
+                        <p class="product-description">Colección de 5 libros esenciales sobre astronomía y exploración espacial.</p>
+                        <button class="btn btn-primary">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Sobre Nosotros</h4>
+                    <ul>
+                        <li><a href="#">Nuestro Equipo</a></li>
+                        <li><a href="#">Historia</a></li>
+                        <li><a href="#">Carreras</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Tienda</h4>
+                    <ul>
+                        <li><a href="#">Telescopios</a></li>
+                        <li><a href="#">Accesorios</a></li>
+                        <li><a href="#">Libros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Ayuda</h4>
+                    <ul>
+                        <li><a href="#">Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="#">Contáctanos</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AstroEdu. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Política de Cookies</a>
+                    <a href="#">Términos de Servicio</a>
+                    <a href="#">Política de Privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

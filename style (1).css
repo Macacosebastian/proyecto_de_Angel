@@ -1,0 +1,66 @@
+/* ... (keep existing styles) ... */
+
+/* New Astronomy Concepts section */
+.concepts {
+  padding: 4rem 0;
+  background-color: #fff8e1;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.concept-card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.concept-card h3 {
+  color: #b45309;
+  margin-bottom: 1rem;
+}
+
+/* Contact page styles */
+.contact {
+  padding: 4rem 0;
+  background-color: #fef3c7;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 2rem auto 0;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4a2c0f;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d97706;
+  border-radius: 5px;
+}
+
+.form-group textarea {
+  height: 150px;
+}
+
+/* ... (keep existing responsive styles) ... */
+

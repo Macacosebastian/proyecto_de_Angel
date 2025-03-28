@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Videos - Astronomy Video Collection</title>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-light: #534bae;
+            --primary-dark: #000051;
+            --secondary: #ff6f00;
+            --secondary-light: #ffe082;
+            --text-on-dark: #ffffff;
+            --text-on-light: #212121;
+            --background: #f5f5f5;
+            --card-bg: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-on-light);
+            background-color: var(--background);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: var(--text-on-dark);
+            padding: 1.5rem 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-on-dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary-light);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-on-dark);
+            padding: 6rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--text-on-dark);
+        }
+        
+        .btn-primary:hover {
+            background-color: #ff8f00;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-on-dark);
+            border: 2px solid var(--text-on-dark);
+            margin-left: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        section:nth-child(even) {
+            background-color: var(--card-bg);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+        }
+        
+        .featured-video {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        
+        .video-player {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .video-player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-info h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .video-meta {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            color: #666;
+        }
+        
+        .video-meta span {
+            margin-right: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .video-meta i {
+            margin-right: 0.5rem;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .video-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .video-content {
+            padding: 1.5rem;
+        }
+        
+        .video-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .video-content p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .video-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .categories {
+            background-color: var(--primary-dark);
+            color: var(--text-on-dark);
+        }
+        
+        .category-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .category-item {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .category-item:hover {
+            background-color: var(--secondary);
+        }
+        
+        .testimonials {
+            background-color: var(--background);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+        
+        .author-info strong {
+            display: block;
+            color: var(--primary);
+        }
+        
+        .author-info span {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .cta {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: var(--text-on-dark);
+            text-align: center;
+        }
+        
+        .cta h2 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex-grow: 1;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .newsletter-form button {
+            background-color: var(--secondary);
+            color: var(--text-on-dark);
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #ff8f00;
+        }
+        
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--text-on-dark);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--secondary-light);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: var(--text-on-dark);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .featured-video {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input {
+                border-radius: var(--border-radius);
+                margin-bottom: 1rem;
+            }
+            
+            .newsletter-form button {
+                border-radius: var(--border-radius);
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Cosmic Videos</div>
+                <ul class="nav-links">
+                    <li><a href="#featured">Featured</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#popular">Popular</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Explore the Universe Through Video</h1>
+            <p>Discover the wonders of space with our curated collection of stunning astronomy videos from leading scientists and space agencies.</p>
+            <div class="hero-buttons">
+                <a href="#featured" class="btn btn-primary">Watch Featured</a>
+                <a href="#categories" class="btn btn-secondary">Browse Categories</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="featured">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Video</h2>
+                <p>Our top pick of the month that showcases the beauty and mystery of our universe</p>
+            </div>
+            <div class="featured-video">
+                <div class="video-player">
+                    <iframe src="https://www.youtube.com/embed/GoW8Tf7hTGA" title="Journey to the Edge of the Universe" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Journey to the Edge of the Universe</h3>
+                    <p>Take an unforgettable journey from Earth to the farthest reaches of the observable universe. This stunning visualization combines real astronomical data with artistic renderings to give you a sense of the vastness and beauty of our cosmos.</p>
+                    <div class="video-meta">
+                        <span><i>⏱️</i> 45:18</span>
+                        <span><i>👁️</i> 8.2M views</span>
+                        <span><i>⭐</i> 4.9/5</span>
+                    </div>
+                    <a href="#" class="btn btn-primary">Watch Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categories" class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Video Categories</h2>
+                <p>Browse our extensive collection by category</p>
+            </div>
+            <div class="category-list">
+                <div class="category-item">Galaxies</div>
+                <div class="category-item">Solar System</div>
+                <div class="category-item">Black Holes</div>
+                <div class="category-item">Nebulae</div>
+                <div class="category-item">Exoplanets</div>
+                <div class="category-item">Space Missions</div>
+                <div class="category-item">Astrophotography</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="popular">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Videos</h2>
+                <p>Most-watched astronomy videos from our collection</p>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Black hole visualization">
+                        <span class="video-duration">15:42</span>
+                    </div>
+                    <div class="video-content">
+                        <h3>Black Holes Explained</h3>
+                        <p>Delve into the mysterious world of black holes, understanding their formation, behavior, and the latest research findings.</p>
+                        <div class="video-stats">
+                            <span>4.2M views</span>
+                            <span>⭐ 4.8/5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="nebulosa.jpeg" alt="Nebula in space">
+                        <span class="video-duration">18:27</span>
+                    </div>
+                    <div class="video-content">
+                        <h3>Nebulae: Cosmic Clouds</h3>
+                        <p>Explore the beautiful and colorful nebulae that serve as stellar nurseries and remnants of dying stars.</p>
+                        <div class="video-stats">
+                            <span>3.8M views</span>
+                            <span>⭐ 4.9/5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Earth from space">
+                        <span class="video-duration">22:15</span>
+                    </div>
+                    <div class="video-content">
+                        <h3>Our Pale Blue Dot</h3>
+                        <p>A perspective-shifting look at Earth from space, featuring footage from astronauts and satellites.</p>
+                        <div class="video-stats">
+                            <span>5.1M views</span>
+                            <span>⭐ 4.7/5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Milky Way galaxy">
+                        <span class="video-duration">20:38</span>
+                    </div>
+                    <div class="video-content">
+                        <h3>Milky Way: Our Galactic Home</h3>
+                        <p>Journey through our home galaxy, exploring its structure, history, and the mysteries it still holds.</p>
+                        <div class="video-stats">
+                            <span>3.5M views</span>
+                            <span>⭐ 4.8/5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Solar flare">
+                        <span class="video-duration">16:54</span>
+                    </div>
+                    <div class="video-content">
+                        <h3>The Sun: Our Star Up Close</h3>
+                        <p>Witness the incredible power and beauty of our nearest star through the eyes of solar observatories.</p>
+                        <div class="video-stats">
+                            <span>2.9M views</span>
+                            <span>⭐ 4.6/5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1581822261290-991b38693d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Saturn and its rings">
+                        <span class="video-duration">19:12</span>
+                    </div>
+                    <div class="video-content">
+                        <h3>Saturn: Lord of the Rings</h3>
+                        <p>Explore the majestic ringed planet through the eyes of the Cassini mission and other spacecraft.</p>
+                        <div class="video-stats">
+                            <span>3.2M views</span>
+                            <span>⭐ 4.9/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Viewers Say</h2>
+                <p>Feedback from astronomy enthusiasts who love our video collection</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"These videos have completely transformed how I see the night sky. The visuals are stunning and the explanations are clear even for a beginner like me."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah Johnson">
+                        <div class="author-info">
+                            <strong>Sarah Johnson</strong>
+                            <span>Amateur Astronomer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"As a science teacher, I use these videos in my classroom regularly. They engage my students and make complex astronomical concepts accessible."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                        <div class="author-info">
+                            <strong>Michael Chen</strong>
+                            <span>High School Science Teacher</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The quality and scientific accuracy of these videos is outstanding. I've been an astronomy buff for decades and I still learn something new with each video."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dr. Elena Rodriguez">
+                        <div class="author-info">
+                            <strong>Dr. Elena Rodriguez</strong>
+                            <span>Astrophysicist</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Stay Updated with New Videos</h2>
+            <p>Subscribe to our newsletter and be the first to know when we add new astronomy videos to our collection.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Our Mission</a></li>
+                        <li><a href="#">The Team</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Videos</h3>
+                    <ul>
+                        <li><a href="#">Featured</a></li>
+                        <li><a href="#">Most Popular</a></li>
+                        <li><a href="#">Recent Uploads</a></li>
+                        <li><a href="#">Video Series</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Learning Center</a></li>
+                        <li><a href="#">Astronomy Blog</a></li>
+                        <li><a href="#">Star Charts</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="YouTube">📹</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cosmic Videos. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
